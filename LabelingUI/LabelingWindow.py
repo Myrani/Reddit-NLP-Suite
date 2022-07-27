@@ -5,8 +5,13 @@ from PyQt6.QtCore import *
 from Classes.DataLabeler import DataLabeler
 from Classes.PathHandler import PathHandler
 from Parameters.paths import paths
+
+from LabelingUI.LabelPost import LabelPost
+
+
 class LabelingWindow(QWidget):
-    
+    """
+        
 
     def center(self):
         qr = self.frameGeometry()
@@ -24,7 +29,7 @@ class LabelingWindow(QWidget):
     def mouseReleaseEvent(self, event):
         self.oldPos = event.position().toPoint()
 
-
+    """
 
     # Real soft
 
@@ -43,14 +48,15 @@ class LabelingWindow(QWidget):
         if comment["replies"]:
             
             print(comment["replies"])
-            text = "\n "+deepness*"   |"+comment["body"]
+            label = QLabel( "\n "+deepness*"   |"+comment["body"])
+            label.setFixedSize(500,1000)
+            self.labelList.append(label)
             
             for reply in comment["replies"]:
-                text += "\n "+self._recursiveFetch(reply,deepness+1)
+                self._recursiveFetch(reply,deepness+1)
 
-            return text
         else:
-            return ""
+            return None
     
     def _loadPosts(self):
         """
@@ -67,11 +73,21 @@ class LabelingWindow(QWidget):
         """
             Function to load a post into the user UI , recursively parcour the post file and fetch all the comments
         """
-        text = " Title : "+ post["title"] + "\n"
-        for comment in post["comments"]:
-            text += self._recursiveFetch(comment,1)
         
-        self.readZoneLabel.setText(text)
+        text = " Title : "+ post["title"] + "\n"
+        label = QLabel(text)
+        label.setFixedSize(500,500)
+
+        self.labelList = [label]
+        
+        for comment in post["comments"]:
+            self._recursiveFetch(comment,1)
+        
+        for label in self.labelList:
+            self.readZoneWidget.addChildList(self.labelList)
+
+        print(self.labelList)
+
 
     def startLabelizingPost(self,postPath):
         """
@@ -80,30 +96,34 @@ class LabelingWindow(QWidget):
 
             Given a filepath to a post starts the labzelization process
         """
-        
         print(postPath)
 
-        self.loadedPost = json.load(open(postPath))
-        self._loadPostIntoUi(self.loadedPost)
+        self.parentWidget.loadedPost = json.load(open(postPath))
+        self._loadPostIntoUi(self.parentWidget.loadedPost)
             
     def labelPost(self,post,label):
         """
-
 
             Function in charge of attributing a label, to be trigerred by the user inputs
 
         """
         post["label"] = label
         self.dataLabeler._saveLabeledPost(post)
-        self.currentIndex+=1
-        if self.currentIndex > len(self.posts):
-            self.posts = self._loadPosts()
-            self.currentIndex = 0
+        self.parentWidget.currentIndex+=1
+        if self.parentWidget.currentIndex > len(self.parentWidget.posts):
+            self.parentWidget.posts = self._loadPosts()
+            self.parentWidget.currentIndex = 0
 
-        self.startLabelizingPost(self.posts[self.currentIndex])
+        self.parentWidget._redrawWindow()
+        self.startLabelizingPost(self.parentWidget.posts[self.parentWidget.currentIndex])
 
 
     def keyPressEvent(self, e):
+        """
+            KeyBoard input redirection
+
+        """
+
         if e.text() == "a":
             self.labelPost(self.loadedPost,1)
         elif e.text() == "z":
@@ -121,8 +141,10 @@ class LabelingWindow(QWidget):
         self.pathHandler = PathHandler(paths=paths)
         self.dataLabeler = DataLabeler(self.pathHandler)
         self.oldPos = QPoint(0,0)
-        self.setParent(parent)
+        self.parentWidget = parent
+        print(parent)
 
+        
         
         self.screenDim = self.screen().availableGeometry().getCoords()
         print(self.screenDim[2]-100)
@@ -133,36 +155,36 @@ class LabelingWindow(QWidget):
         self.setGeometry(0,0,1500,1500)
         self.setMaximumSize(1500,1500)
 
-        self.readZoneLabel = QLabel("Test")
-        #self.readZoneLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.readZoneLabel.setStyleSheet("background-color:grey")
-        self.layout.addWidget(self.readZoneLabel,0,0,1,5)
+        self.readZoneWidget = LabelPost(self)
+        self.readZoneWidgetLayout = QVBoxLayout(self.readZoneWidget)
+        self.scroll = QScrollArea()
+        self.scroll.setWidget(self.readZoneWidget)
 
+        self.layout.addWidget(self.readZoneWidget,0,0,1,5)
 
         self.buttonVeryBullish = QPushButton("VeryBullish")
         self.layout.addWidget(self.buttonVeryBullish,1,0,1,1)
-        self.buttonVeryBullish.clicked.connect(lambda:self.labelPost(self.loadedPost,1))
+        self.buttonVeryBullish.clicked.connect(lambda:self.labelPost(self.parentWidget.loadedPost,1))
 
         self.buttonBullish = QPushButton("Bullish")
         self.layout.addWidget(self.buttonBullish,1,1,1,1)
-        self.buttonBullish.clicked.connect(lambda:self.labelPost(self.loadedPost,2))
+        self.buttonBullish.clicked.connect(lambda:self.labelPost(self.parentWidget.loadedPost,2))
 
         self.buttonNeutral = QPushButton("Neutral")
         self.layout.addWidget(self.buttonNeutral,1,2,1,1)
-        self.buttonNeutral.clicked.connect(lambda:self.labelPost(self.loadedPost,3))
+        self.buttonNeutral.clicked.connect(lambda:self.labelPost(self.parentWidget.loadedPost,3))
 
 
         self.buttonBearish = QPushButton("Bearish")
         self.layout.addWidget(self.buttonBearish,1,3,1,1)
-        self.buttonBearish.clicked.connect(lambda:self.labelPost(self.loadedPost,4))
+        self.buttonBearish.clicked.connect(lambda:self.labelPost(self.parentWidget.loadedPost,4))
 
 
         self.buttonVeryBearish = QPushButton("VeryBearish")
         self.layout.addWidget(self.buttonVeryBearish,1,4,1,1)
-        self.buttonVeryBearish.clicked.connect(lambda:self.labelPost(self.loadedPost,5))
+        self.buttonVeryBearish.clicked.connect(lambda:self.labelPost(self.parentWidget.loadedPost,5))
 
-        self.posts = self._loadPosts()
-        self.currentIndex = 0
-        self.startLabelizingPost(self.posts[0])
+        self.parentWidget.posts = self._loadPosts()
+        self.startLabelizingPost(self.parentWidget.posts[0])
 
 

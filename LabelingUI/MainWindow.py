@@ -10,7 +10,13 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Data Labeling")
         self.setGeometry(100,100,400,600)
         self.setMaximumSize(1500,1500)
+        
+        
+        self.currentIndex = 0
+        
         self.initUI()
+
+        
     
 
     
@@ -37,5 +43,10 @@ class MainWindow(QMainWindow):
    
         #self.homeWindow.move(self.screen().availableGeometry().center().x()-200,self.screen().availableGeometry().center().y()-200)
 
+        self.setCentralWidget(self.labelingWindow)
+        self.show()
+
+    def _redrawWindow(self):
+        self.labelingWindow = LabelingWindow(self)
         self.setCentralWidget(self.labelingWindow)
         self.show()

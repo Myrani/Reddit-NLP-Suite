@@ -90,7 +90,7 @@ class DataLabeler():
         month = self._selectRandomMonth()
         allDays =[day for day in os.listdir(self.pathHandler.getRawPostsPath()+"/"+month)]
 
-        return (month,allDays[random.randint(0, len(allDays))])
+        return (month,allDays[random.randint(0, len(allDays)-1)])
 
 
     def loadRandomPostsFromRandomDirectory(self):

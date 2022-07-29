@@ -49,7 +49,8 @@ class LabelingWindow(QWidget):
             
             print(comment["replies"])
             label = QLabel( "\n "+deepness*"   |"+comment["body"])
-            label.setFixedSize(500,1000)
+            #label.setFixedSize(200,200)
+            #label.setStyleSheet("background-color: grey")
             self.labelList.append(label)
             
             for reply in comment["replies"]:
@@ -76,7 +77,7 @@ class LabelingWindow(QWidget):
         
         text = " Title : "+ post["title"] + "\n"
         label = QLabel(text)
-        label.setFixedSize(500,500)
+     
 
         self.labelList = [label]
         
@@ -156,32 +157,30 @@ class LabelingWindow(QWidget):
         self.setMaximumSize(1500,1500)
 
         self.readZoneWidget = LabelPost(self)
-        self.readZoneWidgetLayout = QVBoxLayout(self.readZoneWidget)
-        self.scroll = QScrollArea()
-        self.scroll.setWidget(self.readZoneWidget)
 
-        self.layout.addWidget(self.readZoneWidget,0,0,1,5)
+
+        self.layout.addWidget(self.readZoneWidget,0,0,5,5)
 
         self.buttonVeryBullish = QPushButton("VeryBullish")
-        self.layout.addWidget(self.buttonVeryBullish,1,0,1,1)
+        self.layout.addWidget(self.buttonVeryBullish,6,0,1,1)
         self.buttonVeryBullish.clicked.connect(lambda:self.labelPost(self.parentWidget.loadedPost,1))
 
         self.buttonBullish = QPushButton("Bullish")
-        self.layout.addWidget(self.buttonBullish,1,1,1,1)
+        self.layout.addWidget(self.buttonBullish,6,1,1,1)
         self.buttonBullish.clicked.connect(lambda:self.labelPost(self.parentWidget.loadedPost,2))
 
         self.buttonNeutral = QPushButton("Neutral")
-        self.layout.addWidget(self.buttonNeutral,1,2,1,1)
+        self.layout.addWidget(self.buttonNeutral,6,2,1,1)
         self.buttonNeutral.clicked.connect(lambda:self.labelPost(self.parentWidget.loadedPost,3))
 
 
         self.buttonBearish = QPushButton("Bearish")
-        self.layout.addWidget(self.buttonBearish,1,3,1,1)
+        self.layout.addWidget(self.buttonBearish,6,3,1,1)
         self.buttonBearish.clicked.connect(lambda:self.labelPost(self.parentWidget.loadedPost,4))
 
 
         self.buttonVeryBearish = QPushButton("VeryBearish")
-        self.layout.addWidget(self.buttonVeryBearish,1,4,1,1)
+        self.layout.addWidget(self.buttonVeryBearish,6,4,1,1)
         self.buttonVeryBearish.clicked.connect(lambda:self.labelPost(self.parentWidget.loadedPost,5))
 
         self.parentWidget.posts = self._loadPosts()

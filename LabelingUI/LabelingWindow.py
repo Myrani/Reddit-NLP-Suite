@@ -116,7 +116,7 @@ class LabelingWindow(QWidget):
             self.parentWidget.currentIndex = 0
 
         self.parentWidget._redrawWindow()
-        self.startLabelizingPost(self.parentWidget.posts[self.parentWidget.currentIndex])
+        
 
 
     def keyPressEvent(self, e):
@@ -126,15 +126,15 @@ class LabelingWindow(QWidget):
         """
 
         if e.text() == "a":
-            self.labelPost(self.loadedPost,1)
+            self.labelPost(self.parentWidget.loadedPost ,1)
         elif e.text() == "z":
-            self.labelPost(self.loadedPost,2)
+            self.labelPost(self.parentWidget.loadedPost ,2)
         elif e.text() == "e":
-            self.labelPost(self.loadedPost,3)
+            self.labelPost(self.parentWidget.loadedPost ,3)
         elif e.text() == "r":
-            self.labelPost(self.loadedPost,4)
+            self.labelPost(self.parentWidget.loadedPost ,4)
         elif e.text() == "t":
-            self.labelPost(self.loadedPost,5)
+            self.labelPost(self.parentWidget.loadedPost ,5)
 
 
     def __init__(self, parent: typing.Optional['QWidget'] = ...) -> None:
@@ -143,12 +143,11 @@ class LabelingWindow(QWidget):
         self.dataLabeler = DataLabeler(self.pathHandler)
         self.oldPos = QPoint(0,0)
         self.parentWidget = parent
-        print(parent)
+        
 
         
         
         self.screenDim = self.screen().availableGeometry().getCoords()
-        print(self.screenDim[2]-100)
 
 
         self.layout = QGridLayout(self)

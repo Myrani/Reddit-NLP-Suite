@@ -12,3 +12,4 @@ MainWindow = MainWindow()
 # IMPORTANT!!!!! Windows are hidden by default.
 # Start the event loop.
 sys.exit(app.exec())
+

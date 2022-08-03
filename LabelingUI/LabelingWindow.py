@@ -1,3 +1,4 @@
+from turtle import tilt
 import typing
 import json
 from PyQt6.QtWidgets import *
@@ -99,15 +100,32 @@ class LabelingWindow(QWidget):
 
         self.parentWidget.loadedPost = json.load(open(postPath))
         self._loadPostIntoUi(self.parentWidget.loadedPost)
-            
-    def labelPost(self,post,label):
+    
+    def _getLabelizedContent(self):
+        
+        labelisedContent = []
+
+        flag = True
+        for child in self.readZoneWidget.scrollArea.children():
+
+            if flag:
+                flag = not flag 
+                pass
+            else:    
+                labelisedContent.append((child.comboBox.currentText(),child.mainLabel.text().replace("|","") ))
+
+        return labelisedContent
+    
+    def labelPost(self,post):
         """
 
             Function in charge of attributing a label, to be trigerred by the user inputs
 
         """
-        post["label"] = label
-        self.dataLabeler._saveLabeledPost(post)
+        labeledPost = {"title": post["title"]}
+
+        labeledPost["content"] = self._getLabelizedContent()
+        self.dataLabeler._saveLabeledPost(labeledPost)
         self.parentWidget.currentIndex+=1
         if self.parentWidget.currentIndex > len(self.parentWidget.posts):
             self.parentWidget.posts = self._loadPosts()
@@ -124,15 +142,15 @@ class LabelingWindow(QWidget):
         """
 
         if e.text() == "a":
-            self.labelPost(self.parentWidget.loadedPost ,1)
+            self.labelPost(self.parentWidget.loadedPost)
         elif e.text() == "z":
-            self.labelPost(self.parentWidget.loadedPost ,2)
+            self.labelPost(self.parentWidget.loadedPost)
         elif e.text() == "e":
-            self.labelPost(self.parentWidget.loadedPost ,3)
+            self.labelPost(self.parentWidget.loadedPost)
         elif e.text() == "r":
-            self.labelPost(self.parentWidget.loadedPost ,4)
+            self.labelPost(self.parentWidget.loadedPost)
         elif e.text() == "t":
-            self.labelPost(self.parentWidget.loadedPost ,5)
+            self.labelPost(self.parentWidget.loadedPost)
 
 
     def __init__(self, parent: typing.Optional['QWidget'] = ...) -> None:
@@ -158,25 +176,25 @@ class LabelingWindow(QWidget):
 
         self.buttonVeryBullish = QPushButton("VeryBullish")
         self.layout.addWidget(self.buttonVeryBullish,6,0,1,1)
-        self.buttonVeryBullish.clicked.connect(lambda:self.labelPost(self.parentWidget.loadedPost,1))
+        self.buttonVeryBullish.clicked.connect(lambda:self.labelPost(self.parentWidget.loadedPost))
 
         self.buttonBullish = QPushButton("Bullish")
         self.layout.addWidget(self.buttonBullish,6,1,1,1)
-        self.buttonBullish.clicked.connect(lambda:self.labelPost(self.parentWidget.loadedPost,2))
+        self.buttonBullish.clicked.connect(lambda:self.labelPost(self.parentWidget.loadedPost))
 
         self.buttonNeutral = QPushButton("Neutral")
         self.layout.addWidget(self.buttonNeutral,6,2,1,1)
-        self.buttonNeutral.clicked.connect(lambda:self.labelPost(self.parentWidget.loadedPost,3))
+        self.buttonNeutral.clicked.connect(lambda:self.labelPost(self.parentWidget.loadedPost))
 
 
         self.buttonBearish = QPushButton("Bearish")
         self.layout.addWidget(self.buttonBearish,6,3,1,1)
-        self.buttonBearish.clicked.connect(lambda:self.labelPost(self.parentWidget.loadedPost,4))
+        self.buttonBearish.clicked.connect(lambda:self.labelPost(self.parentWidget.loadedPost))
 
 
         self.buttonVeryBearish = QPushButton("VeryBearish")
         self.layout.addWidget(self.buttonVeryBearish,6,4,1,1)
-        self.buttonVeryBearish.clicked.connect(lambda:self.labelPost(self.parentWidget.loadedPost,5))
+        self.buttonVeryBearish.clicked.connect(lambda:self.labelPost(self.parentWidget.loadedPost))
 
         self.parentWidget.posts = self._loadPosts()
         self.startLabelizingPost(self.parentWidget.posts[self.parentWidget.currentIndex])

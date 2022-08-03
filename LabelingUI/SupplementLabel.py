@@ -9,30 +9,29 @@ class SupplementLabel(QWidget):
         super(SupplementLabel,self).__init__(parent=parent)
         self.widgetLayout = QVBoxLayout(self)
 
-        self.mainlabel = QLabel(self)
+        self.mainLabel = QLabel(self)
         self.comboBox =  QComboBox(self)
-        self.mainlabel.setStyleSheet("background-color: grey")
+        self.mainLabel.setStyleSheet("background-color: grey")
 
-        self.mainlabel.setMinimumSize(100,100)
-        self.mainlabel.setMaximumSize(400,400)
+        self.mainLabel.setMinimumSize(100,100)
+        self.mainLabel.setMaximumSize(400,400)
         
-        self.mainlabel.setWordWrap(True)
-        self.mainlabel.setSizePolicy(QSizePolicy.Policy.Preferred,QSizePolicy.Policy.Preferred)
-        self.mainlabel.adjustSize()
+        self.mainLabel.setWordWrap(True)
+        self.mainLabel.setSizePolicy(QSizePolicy.Policy.Preferred,QSizePolicy.Policy.Preferred)
+        self.mainLabel.adjustSize()
         
         self.comboBox.addItems(["Neutral","Very Bullish","Bullish","Bearish","Very Bearish"])
         self.comboBox.setMaximumSize(200,25)
 
 
 
-        self.widgetLayout.addWidget(self.mainlabel)
+        self.widgetLayout.addWidget(self.mainLabel)
         self.widgetLayout.addWidget(self.comboBox)
         
         
         self.show()
 
-        
-    
+
     def setText(self,text):
-        self.mainlabel.setText(text)
-        self.mainlabel.adjustSize()
+        self.mainLabel.setText(text)
+        self.mainLabel.adjustSize()

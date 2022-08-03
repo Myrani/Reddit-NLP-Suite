@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QScrollArea,QGroupBox,QGridLayout,QScrollBar,QHBoxLayout,QWidget,QVBoxLayout,QFrame
 from PyQt6.QtCore import Qt 
-
+from LabelingUI.SupplementLabel import SupplementLabel
 
 class LabelPost(QScrollArea):
     def __init__(self, parent=None,):
@@ -10,8 +10,6 @@ class LabelPost(QScrollArea):
         self.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
         self.setWidgetResizable(True)
-
-
 
         self.scrollArea = QFrame(self)
         self.scrollAreaLayout = QVBoxLayout(self.scrollArea)
@@ -25,8 +23,11 @@ class LabelPost(QScrollArea):
         self.scrollAreaLayout.addWidget(widget)
 
     def addChildList(self,listOfLabels):
-        x = 0
+        x=0
         for label in listOfLabels:
-            self.addWidget(label)
-            x+= 1
+            print(label.text(),x)
+            supplementLabel = SupplementLabel(self)
+            supplementLabel.setText(label.text())
+            self.addWidget(supplementLabel)
+            x+=1
         self.show()

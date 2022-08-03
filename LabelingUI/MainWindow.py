@@ -10,7 +10,10 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Data Labeling")
         self.setGeometry(100,100,400,600)
         self.setMaximumSize(1500,1500)
-        
+   
+        self.menu = self.menuBar()
+        self.file_menu = self.menu.addMenu("&File")
+        #file_menu.addAction(button_action)
         
         self.currentIndex = 0
         
@@ -41,7 +44,6 @@ class MainWindow(QMainWindow):
     def initUI(self):
         self.labelingWindow = LabelingWindow(self)
    
-        #self.homeWindow.move(self.screen().availableGeometry().center().x()-200,self.screen().availableGeometry().center().y()-200)
 
         self.setCentralWidget(self.labelingWindow)
         self.show()

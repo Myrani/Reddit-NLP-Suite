@@ -49,8 +49,6 @@ class LabelingWindow(QWidget):
             
             print(comment["replies"])
             label = QLabel( "\n "+deepness*"   |"+comment["body"])
-            #label.setFixedSize(200,200)
-            #label.setStyleSheet("background-color: grey")
             self.labelList.append(label)
             
             for reply in comment["replies"]:
@@ -84,8 +82,8 @@ class LabelingWindow(QWidget):
         for comment in post["comments"]:
             self._recursiveFetch(comment,1)
         
-        for label in self.labelList:
-            self.readZoneWidget.addChildList(self.labelList)
+        
+        self.readZoneWidget.addChildList(self.labelList)
 
         print(self.labelList)
 
@@ -145,8 +143,6 @@ class LabelingWindow(QWidget):
         self.parentWidget = parent
         
 
-        
-        
         self.screenDim = self.screen().availableGeometry().getCoords()
 
 
@@ -183,6 +179,6 @@ class LabelingWindow(QWidget):
         self.buttonVeryBearish.clicked.connect(lambda:self.labelPost(self.parentWidget.loadedPost,5))
 
         self.parentWidget.posts = self._loadPosts()
-        self.startLabelizingPost(self.parentWidget.posts[0])
+        self.startLabelizingPost(self.parentWidget.posts[self.parentWidget.currentIndex])
 
 

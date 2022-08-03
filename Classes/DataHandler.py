@@ -2,10 +2,12 @@ import time
 import json
 import os.path
 import datetime as dt 
+from Classes.PathHandler import PathHandler
+from Parameters.paths import paths
 
 class DataHandler():
     def __init__(self) -> None:
-        pass
+        self.pathHandler = PathHandler(paths)
 
     def _fetchReplies(self,comment):
         """
@@ -39,8 +41,8 @@ class DataHandler():
         """
             Internal function used to create a JSON file from a reddit post converted into a dictionnary and save it in a special day folder
         """
-        currentTopFolder = """RawPosts/"""+dt.datetime.fromtimestamp(timestamp).strftime('%m-%y')+"""/"""
-        currentFolder = """RawPosts/"""+dt.datetime.fromtimestamp(timestamp).strftime('%m-%y')+"""/"""+dt.datetime.fromtimestamp(timestamp).strftime('%d-%m-%y')+"""/"""
+        currentTopFolder = self.pathHandler.getRawPostsPath()+dt.datetime.fromtimestamp(timestamp).strftime('%m-%y')+"""/"""
+        currentFolder = self.pathHandler.getRawPostsPath()+dt.datetime.fromtimestamp(timestamp).strftime('%m-%y')+"""/"""+dt.datetime.fromtimestamp(timestamp).strftime('%d-%m-%y')+"""/"""
 
         if not os.path.isdir(currentTopFolder):
             os.mkdir(currentTopFolder)

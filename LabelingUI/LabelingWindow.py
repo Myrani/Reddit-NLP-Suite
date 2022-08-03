@@ -112,7 +112,7 @@ class LabelingWindow(QWidget):
                 flag = not flag 
                 pass
             else:    
-                labelisedContent.append((child.comboBox.currentText(),child.mainLabel.text().replace("|","") ))
+                labelisedContent.append({"label":child.comboBox.currentText(),"comment":child.mainLabel.text().replace("|","").replace("\n","") })
 
         return labelisedContent
     

@@ -19,10 +19,6 @@ class MainWindow(QMainWindow):
         
         self.initUI()
 
-        
-    
-
-    
     
     ### Dragable window part
     def center(self):

@@ -82,10 +82,18 @@ class DataLabeler():
         return postList
 
     def _selectRandomMonth(self):
+        """
+            Select a Random month from the RawPosts Directory .
+        """
+
         allMonths =[month for month in os.listdir(self.pathHandler.getRawPostsPath())]
         return allMonths[random.randint(0, len(allMonths)-1)]
 
     def _selectRandowDay(self):
+        """
+            Select a Random day from the random month selected .
+        
+        """
 
         month = self._selectRandomMonth()
         allDays =[day for day in os.listdir(self.pathHandler.getRawPostsPath()+"/"+month)]

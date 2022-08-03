@@ -130,4 +130,6 @@ dmypy.json
 
 Parameters/Secrets.py
 Results/RawPosts/
-Results/LabeledPosts
+Results/LabeledPosts/
+Results/RefinedPosts/
+Results/BagOfWords/

@@ -9,15 +9,10 @@ class Harvester():
         
         self.reddit = reddit
         self.api = PushshiftAPI(reddit)
-
         self.datahandler = DataHandler()
-
-        
 
     def _generateScrapingManifest(self):
         pass
-
-
 
     def harvestSubredditFrom(self,subreddit,timedict,minimumScore):
 

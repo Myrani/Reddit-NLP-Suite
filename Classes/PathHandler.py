@@ -14,3 +14,6 @@ class PathHandler():
 
     def getBagOfWordsPath(self):
         return self.path["BagOfWordsFilePath"]
+
+    def getClassifiersPath(self):
+        return self.path["ClassifiersFilePath"]

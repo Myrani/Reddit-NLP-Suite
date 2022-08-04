@@ -6,6 +6,11 @@ import json
 class ClassifierGenerator():
     
     def __init__(self) -> None:
+        """
+            Creates a Classifer from BagOfWord Structure
+        
+        """
+
         self.pathHandler = PathHandler(paths)
 
     def _getAllBagOfWords(self):
@@ -44,6 +49,16 @@ class ClassifierGenerator():
 
 
     def generateClassifierFromAllBags(self):
+        """
+            Master Function
+            Generates a Classifier from all available BagOfWords
+        
+            Args : None 
+
+            Returns : None
+
+        """
+
         classifier = {}
 
         for bag in self._getAllBagOfWords():

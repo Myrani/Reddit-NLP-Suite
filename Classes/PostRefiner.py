@@ -6,9 +6,13 @@ from Parameters.paths import paths
 
 class PostRefiner():
     def __init__(self) -> None:
+        """
+        
+            Transforms LabeledPosts into a RefinedPost Structure        
+        
+        """
+
         self.pathHandler = PathHandler(paths)
-
-
 
     def loadRawPost(self,name):
         """
@@ -26,12 +30,23 @@ class PostRefiner():
 
     
     def _tokenizeComment(self,comment):
+
+        """
+            Transforms into a list of token a given string
+        
+        """
         return nltk.word_tokenize(comment)
 
     def tokenizeLabelizedPost(self,labeledPost):
 
         """
-            Depth first search to lemmatized the given post
+            Split into different tokens all comment within the passed LabeledPost then save it as a RefinedPost into 
+            the user specified Folder 
+
+            Args : LabeledPost
+
+            return : None
+
         """
         tokenisedPost = {"title": labeledPost["title"],"content":[]}
 
@@ -47,7 +62,7 @@ class PostRefiner():
     def _dumpRefinedPostToJSON(self,post):
         print(post)
         """
-            Internal function used to create a JSON file from Raw JSON post
+            Internal function used to create a JSON file from refinedPost and dump it 
         """
         name = self.pathHandler.getRefinedPostsPath()+post["title"]+""".json"""
         
@@ -55,20 +70,33 @@ class PostRefiner():
             json.dump(post, outfile)
 
 
-    
-
     def _getAllLabeledPosts(self):
+        """
+            Return a list of all available LabeledPosts 
+
+            Args : None
+
+            returns : A List of filename 
+        
+        """
+
         return os.listdir(self.pathHandler.getLabeledPostsPath())
 
 
 
     def refineAllLabelisedPosts(self):
+        """
+            Function to create a RefinedPost version of all Labelised Posts available
+        
+            Args : None 
 
+            Returns : None
+        """
+        
         for post in self._getAllLabeledPosts():
             self.tokenizeLabelizedPost(self.loadLabeledPost(post))
 
 
-    # Convert to bag of words 
     
 
 

@@ -5,12 +5,25 @@ import os
 
 class PostBagger():
     def __init__(self) -> None:
+        """ 
+
+            Transforms into a BagOfWord a RefinedPost Structure
+        
+        """
+
+
         self.pathHandler = PathHandler(paths)
 
     def _dumpBagOfWordsToJSON(self,bag):
-        print("maye",bag)
         """
-            Internal function used to create a JSON file from Raw JSON post
+            Internal function used to save a bag of words by creating a JSON file from the the passed bag 
+            into the specified Folder 
+
+            Args: Json
+
+            returns: None
+        
+        
         """
         name = self.pathHandler.getBagOfWordsPath()+bag["title"]+""".json"""
         
@@ -18,26 +31,50 @@ class PostBagger():
             json.dump(bag, outfile)
 
     def _getAllRefinedPosts(self):
+        """
+            Return all the RefinedPosts available in the RefinedPosts Folder
+
+            Args: None
+
+            returns : [A list of Filename] 
+        """
         return os.listdir(self.pathHandler.getRefinedPostsPath())
 
     def _loadRefinedPost(self,name):
         """
-            Loads a post from Raw Post
+            Loads a post from the RefinedPosts folder
+        
+            Args: name : String 
+        
+            return : Json file 
         """
         data = open(self.pathHandler.getRefinedPostsPath()+name)
         return json.load(data)
 
 
     def bagAllRefinedPosts(self):
-        print("pog 41")
+        """
+            Iterate over all refined posts in the specified refinedpost Folder and generate for each one a corresponding bag of words stocked in
+            the BagOfWords Folder specified
+
+            Args : None
+
+            Returns : None 
+        
+        """
         for post in self._getAllRefinedPosts():
             bag = self.bagRefinedPost(self._loadRefinedPost(post))
-            print("pog")
             self._dumpBagOfWordsToJSON(bag)
   
     
     def _extractCommentContent(self,comment):
-        
+        """
+            Creates a bag from the content of a refined comment
+
+            Args : A refined comment Json
+
+            Returns : a bag of words json
+        """
 
         minibag = {}
 
@@ -52,7 +89,11 @@ class PostBagger():
     def bagRefinedPost(self,refinedPost):
 
         """
-            Depth first search to lemmatized the given post
+            Parcours a refinedPosts comment list and create a bag of word containning the differents Label and bag of words associated to them 
+
+            Arg : redinedPost : A refined Post Json
+
+            return : A bag of Word Json 
         """
         bag = {"title": refinedPost["title"]}
 

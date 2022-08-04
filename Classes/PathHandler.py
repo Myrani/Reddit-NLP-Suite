@@ -1,6 +1,12 @@
 class PathHandler():
 
     def __init__(self,paths) -> None:
+        """
+            Handles the Path logic in to program
+
+        """
+        
+        
         self.path = paths
 
     def getRawPostsPath(self):

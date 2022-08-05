@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QScrollArea,QGroupBox,QGridLayout,QScrollBar,QHBoxLayout,QWidget,QVBoxLayout,QFrame
 from PyQt6.QtCore import Qt 
-from LabelingUI.SupplementLabel import SupplementLabel
+from LabelingUI.Widgets.SupplementLabel import SupplementLabel
 
 class LabelPost(QScrollArea):
     def __init__(self, parent=None,):

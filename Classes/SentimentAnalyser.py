@@ -67,5 +67,5 @@ class SentimentAnalyser():
 
                 for word,count in bag.items():
                         results[label] = results[label] * ( (self.classifier[label][word] + 1) / (self.lexiconSize + len(self.uniqueWordsSet.union(set(bag.values())))) )
-
-        print(results)
+                    
+            print(results)

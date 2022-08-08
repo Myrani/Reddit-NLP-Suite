@@ -1,6 +1,7 @@
 from PyQt6.QtWidgets import QMainWindow
 from PyQt6.QtGui import QAction
 from PyQt6.QtCore import  QPoint,Qt
+from LabelingUI.Windows.LabelMenuWindow import LabelMenuWindow
 
 from LabelingUI.Windows.LabelingWindow import LabelingWindow
 from LabelingUI.Windows.LabelCreationWindow import LabelCreationWindow
@@ -19,17 +20,19 @@ class MainWindow(QMainWindow):
         self.createLabelSet.triggered.connect(self._redrawLabelCreationWindow)
         self.menu.addAction(self.createLabelSet)
 
-        self.createLabelSet = QAction('Create a label set', self)
-        self.createLabelSet.triggered.connect(self._redrawLabelCreationWindow)
-        self.menu.addAction(self.createLabelSet)
-
-
         self.gotoLabelisationWindowAction = QAction('Go to Labelisation Window', self)
         self.gotoLabelisationWindowAction.triggered.connect(self._redrawWindow)
         self.menu.addAction(self.gotoLabelisationWindowAction)
 
         #file_menu.addAction(button_action)
         
+        # Label sets creation temporary stockage
+
+        self.labelSet_Name = ""
+        self.labelSet_LabelList = [] 
+
+
+        # Labelisation process variables 
         self.currentIndex = 0
         
         self.initUI()
@@ -55,7 +58,7 @@ class MainWindow(QMainWindow):
     
     def initUI(self):
         #self.labelingWindow = LabelingWindow(self)
-        self.labelCreationWindow = LabelCreationWindow(self)
+        self.labelCreationWindow = LabelMenuWindow(self)
 
         self.setCentralWidget(self.labelCreationWindow)
         self.show()
@@ -63,6 +66,11 @@ class MainWindow(QMainWindow):
     def _redrawWindow(self):
         self.labelingWindow = LabelingWindow(self)
         self.setCentralWidget(self.labelingWindow)
+        self.show()
+
+    def _redrawLabelMenuWindow(self):
+        self.labelMenuWindow = LabelMenuWindow(self)
+        self.setCentralWidget(self.labelMenuWindow)
         self.show()
 
     def _redrawLabelCreationWindow(self):

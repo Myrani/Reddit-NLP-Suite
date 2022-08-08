@@ -15,7 +15,3 @@ harvester = Harvester(reddit)
 postRefiner = PostRefiner()
 
 harvester.harvestSubredditFrom("CryptoCurrency",{"day":1,"month":1,"year":2017},10)
-
-#postRefiner.lemmatizePost(postRefiner.loadRawPost("YouTube crypto influencers are 21st century snake oil salesmen"))
-
-#postRefiner.convertPostToBagOfWords(postRefiner.loadRefinedPost("YouTube crypto influencers are 21st century snake oil salesmen"))

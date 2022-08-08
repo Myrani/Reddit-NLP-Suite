@@ -23,3 +23,6 @@ class PathHandler():
 
     def getClassifiersPath(self):
         return self.path["ClassifiersFilePath"]
+
+    def getParametersPath(self):
+        return self.path["ParametersFileFilePath"]

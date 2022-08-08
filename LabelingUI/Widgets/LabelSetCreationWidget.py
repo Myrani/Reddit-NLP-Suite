@@ -19,6 +19,8 @@ class LabelSetCreationWidget(QWidget):
 
         self.creationButton = QPushButton("Create New Label set ",self)
         self.creationButton.setMinimumSize(QSize(400,200))
+        print(self.parent().parent())
+        self.creationButton.clicked.connect(self.parent().parent()._redrawLabelCreationWindow)
         self.layout.addWidget(self.creationButton)
 
         self.show()

@@ -20,7 +20,7 @@ class SupplementLabel(QWidget):
         self.mainLabel.setSizePolicy(QSizePolicy.Policy.Preferred,QSizePolicy.Policy.Preferred)
         self.mainLabel.adjustSize()
         
-        self.comboBox.addItems(["Neutral","Very Bullish","Bullish","Bearish","Very Bearish"])
+        self.comboBox.addItems(self.nativeParentWidget().currentActiveLabels)
         self.comboBox.setMaximumSize(200,25)
 
 

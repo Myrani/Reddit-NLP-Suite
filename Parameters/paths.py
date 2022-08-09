@@ -15,5 +15,6 @@ paths = {"RawPostsFilePath":"Results/RawPosts/",
         "BagOfWordsFilePath":"Results/BagOfWords/",
         "RefinedPostsFilePath":"Results/RefinedPosts/",
         "ClassifiersFilePath":"Results/Classifiers/",
-        "ParametersFileFilePath":"Parameters/"}
+        "ParametersFileFilePath":"Parameters/",
+        "LabelSetsFileFilePath":"PArameters/LabelSets/"}
 

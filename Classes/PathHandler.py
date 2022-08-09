@@ -26,3 +26,6 @@ class PathHandler():
 
     def getParametersPath(self):
         return self.path["ParametersFileFilePath"]
+
+    def getLabelSetsPath(self):
+        return self.path["LabelSetsFileFilePath"]

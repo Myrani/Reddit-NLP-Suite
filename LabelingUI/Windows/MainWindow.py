@@ -17,7 +17,7 @@ class MainWindow(QMainWindow):
         self.menu = self.menuBar()
 
         self.createLabelSet = QAction('Label sets', self)
-        self.createLabelSet.triggered.connect(self._redrawLabelCreationWindow)
+        self.createLabelSet.triggered.connect(self._redrawLabelMenuWindow)
         self.menu.addAction(self.createLabelSet)
 
         self.gotoLabelisationWindowAction = QAction('Go to Labelisation Window', self)
@@ -26,6 +26,10 @@ class MainWindow(QMainWindow):
 
         #file_menu.addAction(button_action)
         
+        # Current active label set (Not temporary)
+
+        self.currentActiveLabels = []
+
         # Label sets creation temporary stockage
 
         self.labelSet_Name = ""
@@ -69,6 +73,7 @@ class MainWindow(QMainWindow):
         self.show()
 
     def _redrawLabelMenuWindow(self):
+        self.labelSet_LabelList = [] 
         self.labelMenuWindow = LabelMenuWindow(self)
         self.setCentralWidget(self.labelMenuWindow)
         self.show()

@@ -5,7 +5,7 @@ from PyQt6.QtCore import Qt
 from LabelingUI.Widgets.LabelSetCreationWidget import LabelSetCreationWidget
 from LabelingUI.Widgets.LabelSetLabelFieldWidget import LabelSetLabelFieldWidget
 from LabelingUI.Widgets.LabelSetShortcutWidget import LabelSetShortcutWidget
-from Classes.PathHandler import PathHandler
+from Classes.NLP.PathHandler import PathHandler
 from Parameters.paths import paths
 import json
 

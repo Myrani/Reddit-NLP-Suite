@@ -1,4 +1,4 @@
-from Classes.PathHandler import PathHandler
+from Classes.NLP.PathHandler import PathHandler
 from Parameters.paths import paths
 import os
 import json

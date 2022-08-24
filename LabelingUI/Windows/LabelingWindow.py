@@ -2,8 +2,8 @@ import typing
 import json
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
-from Classes.DataLabeler import DataLabeler
-from Classes.PathHandler import PathHandler
+from Classes.NLP.DataLabeler import DataLabeler
+from Classes.NLP.PathHandler import PathHandler
 from Parameters.paths import paths
 
 from LabelingUI.Widgets.LabelPost import LabelPost
@@ -47,7 +47,6 @@ class LabelingWindow(QWidget):
         
         if comment["replies"]:
             
-            print(comment["replies"])
             label = QLabel( "\n "+deepness*"   |"+comment["body"])
             self.labelList.append(label)
             
@@ -85,7 +84,19 @@ class LabelingWindow(QWidget):
         
         self.readZoneWidget.addChildList(self.labelList)
 
-        print(self.labelList)
+    def _loadPostIntoUiFromHistory(self,post):
+
+        """
+            Function to load a post into the user UI , recursively parcour the post file and fetch all the comments
+        """
+        
+        text = post["title"] + "\n"
+        label = QLabel(text)
+     
+
+        self.labelList = [label]
+        print(post["content"])
+        self.readZoneWidget.addChildListPostHistory(post["content"])
 
 
     def startLabelizingPost(self,postPath):
@@ -95,7 +106,7 @@ class LabelingWindow(QWidget):
 
             Given a filepath to a post starts the labzelization process
         """
-        print(postPath)
+
 
         self.parentWidget.loadedPost = json.load(open(postPath))
         self._loadPostIntoUi(self.parentWidget.loadedPost)
@@ -118,13 +129,14 @@ class LabelingWindow(QWidget):
     def labelPost(self,post):
         """
 
-            Function in charge of attributing a label, to be trigerred by the user inputs
+            Function in charge of attributing a label, to be trigerred by the user inputscurrentActiveLabels 
 
         """
         labeledPost = {"title": post["title"]}
 
         labeledPost["content"] = self._getLabelizedContent()
         self.dataLabeler._saveLabeledPost(labeledPost)
+        self.nativeParentWidget().postHistory.append(labeledPost)
         self.parentWidget.currentIndex+=1
         if self.parentWidget.currentIndex > len(self.parentWidget.posts):
             self.parentWidget.posts = self._loadPosts()
@@ -176,8 +188,6 @@ class LabelingWindow(QWidget):
         self.buttonVeryBullish = QPushButton("Last Post")
         self.layout.addWidget(self.buttonVeryBullish,6,0,1,1)
         self.buttonVeryBullish.clicked.connect(lambda:self.labelPost(self.parentWidget.loadedPost))
-
-
 
 
         self.buttonVeryBearish = QPushButton("Next Post")

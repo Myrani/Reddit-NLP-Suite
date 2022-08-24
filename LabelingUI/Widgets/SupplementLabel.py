@@ -35,3 +35,6 @@ class SupplementLabel(QWidget):
     def setText(self,text):
         self.mainLabel.setText(text)
         self.mainLabel.adjustSize()
+    
+    def setComboBox(self,choice):
+        self.comboBox.setCurrentText(choice)

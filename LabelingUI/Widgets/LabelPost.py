@@ -19,15 +19,35 @@ class LabelPost(QScrollArea):
         self.setStyleSheet("background-color: white")
         self.show()
 
+    def _flushPostCache(self):
+        print()
+        for widget in self.scrollArea.children()[1:]: 
+            self.scrollAreaLayout.removeWidget(widget)
+
+
+
     def addWidget(self,widget):
         self.scrollAreaLayout.addWidget(widget)
 
     def addChildList(self,listOfLabels):
         x=0
         for label in listOfLabels:
-            print(label.text(),x)
+
             supplementLabel = SupplementLabel(self)
             supplementLabel.setText(label.text())
+            self.addWidget(supplementLabel)
+            x+=1
+        self.show()
+    
+    def addChildListPostHistory(self,listOfLabeledComments):
+        
+        self._flushPostCache()
+        x=0
+        for post in listOfLabeledComments:
+
+            supplementLabel = SupplementLabel(self)
+            supplementLabel.setText(post["comment"])
+            supplementLabel.setComboBox(post["label"])
             self.addWidget(supplementLabel)
             x+=1
         self.show()

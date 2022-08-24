@@ -1,12 +1,14 @@
 import typing
 from PyQt6.QtWidgets import QLabel,QScrollArea,QGroupBox,QGridLayout,QScrollBar,QHBoxLayout,QWidget,QVBoxLayout,QFrame,QComboBox,QSizePolicy
 from PyQt6.QtCore import Qt
-from Classes.PathHandler import PathHandler 
+from Classes.NLP.PathHandler import PathHandler 
 from LabelingUI.Widgets.LabelSetCreationWidget import LabelSetCreationWidget
 from LabelingUI.Widgets.LabelSetShortcutWidget import LabelSetShortcutWidget
 import os
 import json 
 from Parameters.paths import paths
+
+
 class LabelMenuWindow(QWidget):
 
     def __init__(self, parent: typing.Optional['QWidget']) -> None:

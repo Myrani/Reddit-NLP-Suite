@@ -1,6 +1,6 @@
 from Parameters.Secrets import secrets
-from Classes.Harvester import Harvester
-from Classes.PostRefiner import PostRefiner
+from Classes.Harvesting.Harvester import Harvester
+
 import praw
 
 
@@ -12,6 +12,6 @@ reddit = praw.Reddit(
 
 
 harvester = Harvester(reddit)
-postRefiner = PostRefiner()
+
 
 harvester.harvestSubredditFrom("CryptoCurrency",{"day":1,"month":1,"year":2017},10)

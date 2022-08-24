@@ -1,5 +1,5 @@
 from Parameters.paths import paths
-from Classes.PathHandler import PathHandler
+from Classes.NLP.PathHandler import PathHandler
 import json
 import os 
 

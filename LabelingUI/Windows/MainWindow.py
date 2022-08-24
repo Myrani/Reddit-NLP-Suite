@@ -5,6 +5,7 @@ from LabelingUI.Windows.LabelMenuWindow import LabelMenuWindow
 
 from LabelingUI.Windows.LabelingWindow import LabelingWindow
 from LabelingUI.Windows.LabelCreationWindow import LabelCreationWindow
+from LabelingUI.Windows.PostHistoryWindow import PostHistoryWindow
 
 class MainWindow(QMainWindow):
 
@@ -24,6 +25,13 @@ class MainWindow(QMainWindow):
         self.gotoLabelisationWindowAction.triggered.connect(self._redrawWindow)
         self.menu.addAction(self.gotoLabelisationWindowAction)
 
+
+        self.historyWindowAction = QAction('Labeled posts history', self)
+        self.historyWindowAction.triggered.connect(self._redrawLabelPostHistoryWindow)
+        self.menu.addAction(self.historyWindowAction)
+
+
+        self.postHistory = [{"title":"test"}]
         #file_menu.addAction(button_action)
         
         # Current active label set (Not temporary)
@@ -72,6 +80,12 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.labelingWindow)
         self.show()
 
+    def _redrawLabelingWindowWithSpecifiedPost(self,post):
+        self.labelingWindow = LabelingWindow(self)
+        self.labelingWindow._loadPostIntoUiFromHistory(post)
+        self.setCentralWidget(self.labelingWindow)
+        self.show()       
+
     def _redrawLabelMenuWindow(self):
         self.labelSet_LabelList = [] 
         self.labelMenuWindow = LabelMenuWindow(self)
@@ -81,4 +95,9 @@ class MainWindow(QMainWindow):
     def _redrawLabelCreationWindow(self):
         self.labelCreationWindow = LabelCreationWindow(self)
         self.setCentralWidget(self.labelCreationWindow)
+        self.show()
+
+    def _redrawLabelPostHistoryWindow(self):
+        self.postHistoryWindow = PostHistoryWindow(self)
+        self.setCentralWidget(self.postHistoryWindow)
         self.show()

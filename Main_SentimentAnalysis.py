@@ -1,4 +1,4 @@
-from Classes.SentimentAnalyser import SentimentAnalyser
+from Classes.NLP.SentimentAnalyser import SentimentAnalyser
 
 sentimentAnalyser = SentimentAnalyser("Classifier_0")
 

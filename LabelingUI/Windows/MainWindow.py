@@ -7,6 +7,7 @@ from LabelingUI.Windows.LabelingWindow import LabelingWindow
 from LabelingUI.Windows.LabelCreationWindow import LabelCreationWindow
 from LabelingUI.Windows.PostHistoryWindow import PostHistoryWindow
 
+from LabelingUI.FetchStrategies.StrategyRandomDay import StrategyRandomDay
 class MainWindow(QMainWindow):
 
     def __init__(self) -> None:
@@ -30,10 +31,11 @@ class MainWindow(QMainWindow):
         self.historyWindowAction.triggered.connect(self._redrawLabelPostHistoryWindow)
         self.menu.addAction(self.historyWindowAction)
 
-
-        self.postHistory = [{"title":"test"}]
-        #file_menu.addAction(button_action)
+        # Variable holding a copy of all the posts labeled this session
+        self.postHistory = []
         
+        self.currentPostFetchStrategy = StrategyRandomDay()
+
         # Current active label set (Not temporary)
 
         self.currentActiveLabels = []

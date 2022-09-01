@@ -127,6 +127,7 @@ class LabelingWindow(QWidget):
         return labelisedContent
     
     def labelPost(self,post):
+        print("post",post)
         """
 
             Function in charge of attributing a label, to be trigerred by the user inputscurrentActiveLabels 
@@ -137,10 +138,6 @@ class LabelingWindow(QWidget):
         labeledPost["content"] = self._getLabelizedContent()
         self.dataLabeler._saveLabeledPost(labeledPost)
         self.nativeParentWidget().postHistory.append(labeledPost)
-        self.parentWidget.currentIndex+=1
-        if self.parentWidget.currentIndex > len(self.parentWidget.posts):
-            self.parentWidget.posts = self._loadPosts()
-            self.parentWidget.currentIndex = 0
 
         self.parentWidget._redrawWindow()
         
@@ -187,12 +184,12 @@ class LabelingWindow(QWidget):
 
         self.buttonVeryBullish = QPushButton("Last Post")
         self.layout.addWidget(self.buttonVeryBullish,6,0,1,1)
-        self.buttonVeryBullish.clicked.connect(lambda:self.labelPost(self.parentWidget.loadedPost))
+        self.buttonVeryBullish.clicked.connect(lambda:self.labelPost(self.parentWidget.currentPostFetchStrategy.getNextPost()))
 
 
         self.buttonVeryBearish = QPushButton("Next Post")
         self.layout.addWidget(self.buttonVeryBearish,6,4,1,1)
-        self.buttonVeryBearish.clicked.connect(lambda:self.labelPost(self.parentWidget.loadedPost))
+        self.buttonVeryBearish.clicked.connect(lambda:self.labelPost(self.parentWidget.currentPostFetchStrategy.getNextPost()))
 
         self.parentWidget.posts = self._loadPosts()
         self.startLabelizingPost(self.parentWidget.posts[self.parentWidget.currentIndex])

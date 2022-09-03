@@ -56,14 +56,6 @@ class LabelingWindow(QWidget):
         else:
             return None
     
-    def _loadPosts(self):
-        """
-        
-            Fetch a list of files into a U
-        
-        
-        """
-        return self.dataLabeler.loadRandomPostsFromRandomDirectory()
     
     
     def _loadPostIntoUi(self,post):
@@ -71,7 +63,7 @@ class LabelingWindow(QWidget):
         """
             Function to load a post into the user UI , recursively parcour the post file and fetch all the comments
         """
-        
+        self.currentPost = post
         text = post["title"] + "\n"
         label = QLabel(text)
      
@@ -89,7 +81,7 @@ class LabelingWindow(QWidget):
         """
             Function to load a post into the user UI , recursively parcour the post file and fetch all the comments
         """
-        
+        self.currentPost = post
         text = post["title"] + "\n"
         label = QLabel(text)
      
@@ -99,7 +91,7 @@ class LabelingWindow(QWidget):
         self.readZoneWidget.addChildListPostHistory(post["content"])
 
 
-    def startLabelizingPost(self,postPath):
+    def startLabelizingNextPost(self):
         """
         Args : 
             PostPath : STR , a File path to PostFile 
@@ -108,8 +100,7 @@ class LabelingWindow(QWidget):
         """
 
 
-        self.parentWidget.loadedPost = json.load(open(postPath))
-        self._loadPostIntoUi(self.parentWidget.loadedPost)
+        self._loadPostIntoUi(self.parentWidget.currentPostFetchStrategy.getNextPost())
     
     def _getLabelizedContent(self):
         
@@ -126,28 +117,27 @@ class LabelingWindow(QWidget):
 
         return labelisedContent
     
-    def labelPost(self,post):
-        print("post",post)
+    def labelPost(self):
+        print("post",self.currentPost)
         """
 
             Function in charge of attributing a label, to be trigerred by the user inputscurrentActiveLabels 
 
         """
-        labeledPost = {"title": post["title"]}
+        labeledPost = {"title": self.currentPost["title"]}
 
         labeledPost["content"] = self._getLabelizedContent()
         self.dataLabeler._saveLabeledPost(labeledPost)
         self.nativeParentWidget().postHistory.append(labeledPost)
 
         self.parentWidget._redrawWindow()
-        
 
 
     def keyPressEvent(self, e):
         """
             KeyBoard input redirection
 
-        """
+    
 
         if e.text() == "a":
             self.labelPost(self.parentWidget.loadedPost)
@@ -160,7 +150,8 @@ class LabelingWindow(QWidget):
         elif e.text() == "t":
             self.labelPost(self.parentWidget.loadedPost)
 
-
+        """
+        pass
     def __init__(self, parent: typing.Optional['QWidget'] = ...) -> None:
         super(LabelingWindow,self).__init__(parent)
         self.pathHandler = PathHandler(paths=paths)
@@ -184,14 +175,14 @@ class LabelingWindow(QWidget):
 
         self.buttonVeryBullish = QPushButton("Last Post")
         self.layout.addWidget(self.buttonVeryBullish,6,0,1,1)
-        self.buttonVeryBullish.clicked.connect(lambda:self.labelPost(self.parentWidget.currentPostFetchStrategy.getNextPost()))
+        self.buttonVeryBullish.clicked.connect(lambda:self.labelPost())
 
 
         self.buttonVeryBearish = QPushButton("Next Post")
         self.layout.addWidget(self.buttonVeryBearish,6,4,1,1)
-        self.buttonVeryBearish.clicked.connect(lambda:self.labelPost(self.parentWidget.currentPostFetchStrategy.getNextPost()))
+        self.buttonVeryBearish.clicked.connect(lambda:self.labelPost())
 
-        self.parentWidget.posts = self._loadPosts()
-        self.startLabelizingPost(self.parentWidget.posts[self.parentWidget.currentIndex])
+    
+        self.startLabelizingNextPost()
 
 

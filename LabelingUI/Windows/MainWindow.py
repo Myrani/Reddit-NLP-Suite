@@ -1,6 +1,7 @@
 from PyQt6.QtWidgets import QMainWindow
 from PyQt6.QtGui import QAction
 from PyQt6.QtCore import  QPoint,Qt
+
 from LabelingUI.Windows.LabelMenuWindow import LabelMenuWindow
 
 from LabelingUI.Windows.LabelingWindow import LabelingWindow
@@ -8,6 +9,8 @@ from LabelingUI.Windows.LabelCreationWindow import LabelCreationWindow
 from LabelingUI.Windows.PostHistoryWindow import PostHistoryWindow
 
 from LabelingUI.FetchStrategies.StrategyRandomDay import StrategyRandomDay
+from LabelingUI.FetchStrategies.StrategySequentialFile import StrategySequentialFile
+
 class MainWindow(QMainWindow):
 
     def __init__(self) -> None:
@@ -34,7 +37,7 @@ class MainWindow(QMainWindow):
         # Variable holding a copy of all the posts labeled this session
         self.postHistory = []
         
-        self.currentPostFetchStrategy = StrategyRandomDay()
+        self.currentPostFetchStrategy = StrategySequentialFile()
 
         # Current active label set (Not temporary)
 
